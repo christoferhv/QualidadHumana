@@ -1,0 +1,382 @@
+<!doctype html>
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"> 
+<link rel="stylesheet" href="jquery.mobile.structure-1.3.2.min.css" />
+<link rel="stylesheet" href="qualidad.min.css" />
+<script src="jquery.js"></script>
+<script src="jquery.mobile-1.3.2.min.js"></script>
+<script type='application/javascript' src='fastclick.js'></script>
+
+	<script type="text/javascript">
+        var showing = 0;
+        var id=0;
+   	//	var url="joomla.json";
+   	//	var url2="joomla2.json";
+      var data_elements;
+      var data_elements_pro;
+  window.addEventListener('load', function() {
+    new FastClick(document.body);
+  }, false);
+ 
+   function menu(opcion){
+		//Cambiamos el fondo de la capa cuerpo según la opción seleccionada	
+		if(opcion=="opcion1") $.mobile.changePage($("#nosotros"), { transition: "none", changeHash: false}); ;
+		if(opcion=="opcion2") {
+			
+			$.mobile.changePage($("#empleos"), { transition: "none", changeHash: false});;
+						
+			mostrarempleos();
+		}
+			
+		if(opcion=="opcion3"){
+			 $.mobile.changePage($("#professional"), { transition: "none", changeHash: false});;
+			 mostrarprofessional();
+		}
+		
+		if(opcion=="opcion4") $.mobile.changePage($("#contactenos"), { transition: "none", changeHash: false});;
+		//Mostramos el contenido de la opcion seleccionada del menu inferior
+		
+}
+     var url = "http://qualidadhumana.com/index.php/empleos?format=json";
+     var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
+	function mostrarempleos(){
+		
+		var jqxhr =$.getJSON(url, function(data){
+				data_elements = data.items;	
+			$("#element_list").empty();
+			$.each(data_elements, function(index, el){
+						showing++;						
+						id=el.id;
+						$("#element_list").append( $("<li>").append($("<a href='#' class='vinculo' >").attr("id",id).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
+							"<h1 style='margin-top: 1px;'>" + el.title + "</h1>" + "<p>" + el.created + "</p>"+"<p>"+el.introtext + "</p>")));
+
+			});
+			$("#element_list").listview("refresh");	
+		});
+		jqxhr.complete(function() {
+			$('.result-count').hide();
+  			console.log( "second complete" );
+		});
+			setTimeout("mostrarempleos()",5000);
+
+	}
+	function mostrarprofessional(){
+		var jqxhr = $.getJSON(url2, function(data){
+				data_elements_pro = data.items;
+				var showing = 0;				
+				$.each(data_elements_pro, function(index, el){			
+						showing++;						
+						id=el.id;	
+						$("#element_list_professional").empty();				
+							$("#element_list_professional").append( $("<li>").append($("<a href='#' class='vinculopro' >").attr("id",id).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
+							"<h1 style='margin-top: 1px;'>" + el.title + "</h1>" + "<p>" + el.created + "</p>"+"<p>"+el.introtext + "</p>")));
+			});
+				$("#element_list_professional").listview("refresh");	
+		});
+		jqxhr.complete(function() {
+			$('.result-count').hide();
+  			console.log( "second complete" );
+		});
+		setTimeout("mostrarprofessional()",5000);
+	}
+	 
+	$(document).on("click",".vinculo" ,function(){
+			var idemp=$(this).attr("id");	
+			console.log(idemp);		
+			$.mobile.changePage($("#contenido"), {
+                transition: "none",
+                changeHash: false
+        	});   
+     
+        		$.each(data_elements, function(index, el){
+						var id=el.id;
+						if (id === idemp){
+							var datae = el.extra_fields;					
+							$.each(datae, function(index, el){	
+							$(".descripcione"+index).html("");								
+							$(".descripcione" + index).append(el.value);
+														
+							});
+						}		
+				});
+
+		
+	});
+	$(document).on("click",".vinculopro" ,function(){
+			var idemp=$(this).attr("id");	
+			console.log(idemp);		
+			$.mobile.changePage($("#contenidopro"), {
+                transition: "none",
+                changeHash: false
+        	});   
+        	
+        		$.each(data_elements_pro, function(index, el){
+						var id=el.id;
+						if (id === idemp){
+							var datae = el.extra_fields;					
+							$.each(datae, function(index, el){
+							$(".descripcion"+index).html("");								
+							$(".descripcion" + index).append(el.value);														
+							});
+						}		
+				});
+
+		
+	});
+
+	$(document).on('click', '[data-role="navbar"] a', function () {
+            $.mobile.changePage($(this).attr("data-href"), {
+                transition: "none",
+                changeHash: false
+        	});       	     	
+		    return false;
+		});
+	/*	Validación y llamada AJAX para enviar el correo */
+		$(document).on("click","#submit",function() {
+	 
+			var nombre = $("#nombre").val();
+				email = $.trim($("#email").val());
+				validacion_email = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
+				asunto = $("#asunto").val();
+				mensaje = $("#mensaje").val();
+				organizacion = $("#organizacion").val();
+	 
+			if ((nombre == "") || (nombre == $("#nombre").attr('placeholder'))){
+				$( "#nombre_error" ).popup( "open" );
+				return false;
+			} else if(email == "" || (email == $("#email").attr('placeholder')) || !validacion_email.test(email)){
+				if (!validacion_email.test(email))
+					$( "#email_error" ).popup( "open" );
+				else
+					$( "#email_vacio" ).popup( "open" );
+				return false;
+			} else if(asunto == "" || (asunto == $("#asunto").attr('placeholder'))){
+				$( "#asunto_error" ).popup( "open" );
+				return false;
+			} else if(mensaje == ""){
+				$( "#mensaje_error" ).popup( "open" );
+				return false;
+			} else {
+					// Si todo paso, aqui ira la llamada AJAX
+					var datos = 'nombre='+ nombre + '&email=' + email + '&asunto=' + asunto + '&mensaje=' + mensaje + '&organizacion' + organizacion;
+					$.ajax({
+						type: "POST",
+						url: "http://qualidadhumana.com/proceso.php",
+						data: datos,
+						success: function() {
+							$( "#mensaje_enviado" ).popup( "open" );
+							$("form")[0].reset();
+						},
+						error: function() {
+							$( "#mensaje_no_enviado" ).popup( "open" );
+						}
+					});
+					return false;
+				}
+	 
+		});
+   
+	</script>
+</head>
+   <body>
+
+	<div id="inicio" data-role="page" class="fondo">
+			<div class="imgagen fondo" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>		
+		<div class="linea"></div>
+		<div data-role="content">
+			<br/>
+			<ul data-role="listview" id="element_inicio">
+				<li class="myButton" style=";margin-bottom: 10px; height: 88px;margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion1');"><img src="1.png" alt="" style="height: 66px;margin-top: 10px;"><h1 style="margin-top: 20px;font-size: 18px;color: #fff;">Nosotros</h1></a></li>
+				<li class="myButton" style=" ;margin-bottom: 10px; height: 88px;margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion2');"><img src="2.png" alt="" style="height: 66px;margin-top: 10px;"><h1 style="margin-top: 20px;font-size: 18px;color: #fff;">Empleos</h1></a></li>
+				<li class="myButton" style="margin-bottom: 10px; height: 88px;margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;" ><a href="javascript:menu('opcion3');"><img src="3.png" alt="" style="height: 66px;margin-top: 10px;"><h1 style="margin-top: 20px;font-size: 18px;color: #fff;">Professional Room</h1></a></li>
+				<li class="myButton" style="margin-bottom: 10px; height: 88px;margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion4');"><img src="4.png" alt="" style="height: 66px;margin-top: 10px;"><h1 style="margin-top: 20px;font-size: 18px;color: #fff;">Contáctenos</h1></a></li>
+			
+			</ul>
+		</div>		
+	</div>
+<div id="nosotros" data-role="page" class="fondo">
+			<div class="imgagen fondo" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div class="linea"></div>		
+		<div data-role="content">
+			<br/>
+			<ul data-role="listview" id="element_nosotros">
+				<li ><a href="#quienes"><img src="t4.jpg" alt=""><h1>Quienes Somos</h1></a></li>
+				<li ><a href="#mision"><img src="t1.jpg" alt=""><h1>Misión</h1></a></li>
+				<li ><a href="#vision"><img src="t2.jpg" alt=""><h1>Visión</h1></a></li>
+				<li ><a href="#valores"><img src="t3.jpg" alt=""><h1>Valores</h1></a></li>
+
+			</ul>
+		
+</div>
+</div>
+<div id="mision" data-role="page" class="fondo">
+	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		
+		<div data-role="content">		
+	  	<div class="fondoh3"><h3 class="h3">Mision</h3></div>
+    	<div class="imgnos"><img src="mision.png" alt="" style="width:100%"></div>
+			        <p style="text-align: justify;">Compartir nuestro conocimiento y experiencia con nuestros socios estratégicos, facilitándoles herramientas para mejorar la gestión de su recurso humano, manteniendo una relación de confianza y fidelidad que les permita crecer como negocio de manera continua y sostenible.</p>
+    	</div>
+        
+</div>
+<div id="vision" data-role="page" class="fondo">
+	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div data-role="content">		
+	  	<div class="fondoh3"><h3 class="h3">Vision</h3></div>
+    	<div class="imgnos"><img src="vision.png" alt="" style="width:100%"></div>
+			         <p style="text-align: justify;">Ser una de las 5 consultoras de Gestión Estratégica de Recursos Humanos líderes en países de habla hispana, entendiendo la gestión para el desarrollo de personas como una ciencia cada vez más exacta que nos permite medir el impacto de nuestros servicios, apoyados en una plataforma de excelencia profesional, ética, compromiso, valores y buenas costumbres.</p>
+    	</div>
+        
+</div>
+<div id="quienes" data-role="page" class="fondo">
+	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div data-role="content">		
+	  	<div class="fondoh3"><h3 class="h3">Quienes Somos</h3></div>
+    	<div class="imgnos"><img src="quienes.jpg" alt="" style="width:100%"></div>
+			         <p style="text-align: justify;">Ser una de las 5 consultoras de Gestión Estratégica de Recursos Humanos líderes en países de habla hispana, entendiendo la gestión para el desarrollo de personas como una ciencia cada vez más exacta que nos permite medir el impacto de nuestros servicios, apoyados en una plataforma de excelencia profesional, ética, compromiso, valores y buenas costumbres.</p>
+			         <p style="text-align: justify;">En Qualidad Humana estamos convencidos de que la Gestión Estratégica del Recurso Humano debe venir acompañada de productividad y rentabilidad, es por eso que desarrollamos, junto a nuestros socios estratégicos, indicadores que les permiten monitorear y medir el impacto generado por su inversión en las diferentes áreas de su organización.</p>
+			         <p style="text-align: justify;">Nuestro compromiso está orientado en poner a su disposición al mejor staff de profesionales para obtener su total satisfacción y además, en tiempos en donde las cualidades profesionales se imponen a las personales, Qualidad Humana le asegura una relación con profesionales altamente cualificados con una sólida formación personal, de ética, de valores y respeto.
+			         </p>
+    	</div>
+        
+</div>		
+<div id="valores" data-role="page" class="fondo">
+	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div data-role="content">		
+	  	<div class="fondoh3"><h3 class="h3">Valores</h3></div>
+    	<div class="imgnos"><img src="valores.png" alt="" style="width:100%"></div>
+			         <p style="text-align: justify;">
+			         	<p style="text-align: justify;"><strong>Excelencia :</strong> porque nuestros socios estratégicos merecen un aliado que supere sus expectativas, en Qualidad Humana nos imponemos las metas más altas y los objetivos más retadores que nos llevan a mejorar de forma diaria.</p>
+			         	<p style="text-align: justify;"><strong>Empatía:</strong>porque no podemos brindar una solución si no comprendemos las necesidades de nuestros socios estratégicos, en Qualidad Humana observamos, analizamos, cuestionamos y en función de nuestro conocimiento y experiencia, proponemos la mejor alternativa de solución.</p>
+			         	<p style="text-align: justify;"><strong>Creatividad :</strong>porque las alternativas son diversas y cada socio estratégico necesita una respuesta distinta, en Qualidad Humana innovamos la forma de gestionar el recurso humano de su organización proponiéndole soluciones que se ajustarán exactamente a sus necesidades.</p>
+			         	<p style="text-align: justify;"><strong>Ética :</strong> porque siempre existe una solución que está en el marco de lo correcto y lo adecuado, en Qualidad Humana lo asesoramos evitando cualquier tipo de contingencia futura sin que esto represente ningún sobrecosto para su organización.</p>
+			         	<p style="text-align: justify;"><strong>Desarrollo de Personas:</strong>porque creemos firmemente que el mayor activo de nuestros socios estratégicos son las personas y que el desarrollo de sus colaboradores trae como consecuencia el crecimiento de la organización, en Qualidad Humana nos preocupamos por desarrollar nuevas habilidades en nuestros colaboradores que les permitan afrontar con éxito todos y cada uno de los retos que se les presenten.</p>
+			         </p>
+    	</div>
+        
+</div>		
+
+	<div id="empleos" data-role="page" class="fondo">
+		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div class="linea"></div>		
+		<div data-role="content">
+			<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>			
+			<br/>
+			<ul data-role="listview" id="element_list"></ul>
+			<br/>
+					
+		</div>
+	</div>   	
+
+	<div id="professional" data-role="page" class="fondo">
+		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div class="linea"></div>
+		<div data-role="content">
+		<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>		
+		<br/>		
+			<ul data-role="listview" id="element_list_professional"></ul>		
+		
+		</div>
+	</div>   	
+	<div id="contenido" data-role="page" class="fondo">
+		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div class="linea"></div>		
+		<div data-role="content">		
+			<div id="element_contenido" data-role="collapsible-set">
+			<h1 class="tituloinfo">Información Detallada</h1>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo'>Posición Oferta</h3><p class='descripcione0'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Misión del puesto</h3><p class='descripcione1'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Requisitos</h3><p class='descripcione2'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Competencias</h3><p class='descripcione3'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Funciones</h3><p class='descripcione4'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Se Ofrece</h3><p class='descripcione5'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Contacto</h3><p class='descripcione6'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Validez</h3><p class='descripcione7'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Localidad</h3><p class='descripcione8'></p></div> 
+			</div>	
+		</div>
+	</div> 
+	<div id="contenidopro" data-role="page" class="fondo">
+		<div class="imgagen" style="text-align: center"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></div>		
+		<div class="linea"></div>
+		<div data-role="content">
+			<div id="element_contenido_pro" data-role="collapsible-set">
+				<h1 class="tituloinfo">Información Detallada</h1>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo'>Posición</h3><p class='descripcion0'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Formación</h3><p class='descripcion1'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Conocimiento</h3><p class='descripcion2'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Experiencia</h3><p class='descripcion3'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Competencia</h3><p class='descripcion4'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Idiomas</h3><p class='descripcion5'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Nacionalidad</h3><p class='descripcion6'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Pais de Residencia</h3><p class='descripcion7'></p></div>	        
+			</div>	
+		</div>
+	</div>
+	<div id="contactenos" data-role="page" class="fondo">
+			<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
+		<div class="linea"></div>			
+		
+		<div data-role="content">
+       
+        <div id="nombre_error" data-role="popup" data-theme="a" data-overlay-theme="b" class="ui-content popups">
+  		<a href="#" id="nombre_error_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+        Por favor Ingrese su nombre
+		</div>
+        <div id="email_error" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popups">
+  		<a href="#" id="email_error_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+  		Por favor ingrese un Email v&aacute;lido
+		</div>
+        <div id="email_vacio" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popups">
+  		<a href="#" id="email_vacio_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+  		Por favor ingrese un email
+		</div>
+        <div id="asunto_error" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popups">
+  		<a href="#" id="asunto_error_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+  		Por favor ingrese el asunto
+		</div>
+        <div id="mensaje_error" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popups">
+  		<a href="#" id="mensaje_error_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+  		No por favor ingrese el mensaje
+		</div>
+        <div id="mensaje_no_enviado" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popup_mensaje_correcto">
+  		<a href="#" id="mensaje_no_enviado_c" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
+  		Mensaje no enviado. Int&eacute;ntelo de nuevo.
+		</div>
+        <div id="mensaje_enviado" data-role="popup" data-theme="a" data-overlay-theme="a" class="ui-content popup_mensaje_correcto">
+  		Mensaje enviado correctamente
+  		<a href="#inicio" id="mensaje_enviado_c" data-role="button" data-theme="a" data-icon="back" data-direction="reverse">Inicio</a>
+		</div>
+        <form id="contacto" method="post" data-ajax="false">
+           <div class="ui-body ui-body-b">
+           	<strong>Formulario de contacto</strong>
+               <div data-role="fieldcontain">
+               <label for="nombre">Nombre</label>
+               <input type="text" name="nombre" id="nombre" placeholder="Nombre y Apellido" />
+               </div>
+                <div data-role="fieldcontain">
+               <label for="nombre">Organización</label>
+               <input type="text" name="organizacion" id="organizacion" placeholder="Organización"/>
+               </div>
+               <div data-role="fieldcontain">
+               <label for="email">Email</label>
+               <input type="email" name="email" id="email" placeholder="suemail@dominio.com" />
+               </div>
+               <div data-role="fieldcontain">
+               <label for="asunto">Asunto</label>
+               <input type="text" name="asunto" id="asunto" placeholder="Indique el asunto de su mensaje"  />
+               </div>
+               <div data-role="fieldcontain">
+               <label for="mensaje">Mensaje</label>
+               <textarea cols="30" rows="5" name="mensaje" id="mensaje" requerid ></textarea>
+               </div>
+               <button type="submit" id="submit" name="submit" value="submit-value">Enviar</button>
+           </div>
+        </form>
+    </div><!-- /content -->
+		
+	</div>   
+   </body>   
+</html>

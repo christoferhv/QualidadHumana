@@ -1,2 +1,2 @@
-QualidadHumana
-==============
+qualidad
+========
