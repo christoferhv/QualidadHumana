@@ -176,12 +176,18 @@ background-repeat: repeat-x;
 background-position: 0 100%;
 height: 21px;
 color: #fff;
-padding: 25px 22px;
+padding: 25px 34px;
+}
+.retorno{
+  width: 100px;
+margin-left: 16px;
+margin-top: -3px;
+margin-bottom: 12px;
 }
 .fondoh3{
   background: url("8.png") no-repeat scroll 145px -61px transparent;
 background-color: #b9d40f;
-margin-top: -32px;
+margin-top: -33px;
 margin-right: -15px;
 margin-left: -15px;
 }

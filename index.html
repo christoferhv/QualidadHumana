@@ -12,8 +12,8 @@
 	<script type="text/javascript">
         var showing = 0;
         var id=0;
-   	//	var url="joomla.json";
-   	//	var url2="joomla2.json";
+   		var url="joomla.json";
+   		var url2="joomla2.json";
       var data_elements;
       var data_elements_pro;
   window.addEventListener('load', function() {
@@ -31,9 +31,10 @@
 			 mostrarprofessional();
 		}		
 		if(opcion=="opcion4") $.mobile.changePage($("#contactenos"), { transition: "none", changeHash: false});;
+			if(opcion=="opcion5") $.mobile.changePage($("#inicio"), { transition: "none", changeHash: false});;
 }
-     var url = "http://qualidadhumana.com/index.php/empleos?format=json";
-     var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
+    // var url = "http://qualidadhumana.com/index.php/empleos?format=json";
+    // var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
 	function mostrarempleos(){
 		var jqxhr =$.getJSON(url, function(data){
 				data_elements = data.items;	
@@ -59,7 +60,8 @@
 				data_elements_pro = data.items;
 				var showing = 0;				
 				$.each(data_elements_pro, function(index, el){			
-						showing++;						
+						showing++;
+						console.log(el);						
 						id=el.id;	
 						$("#element_list_professional").empty();				
 							$("#element_list_professional").append( $("<li>").append($("<a href='#' class='vinculopro' >").attr("id",id).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
@@ -115,6 +117,10 @@
 
 		
 	});
+	$(document).on('click', '.mybutton', function () {
+			parent.history.back();
+        return false;
+	});
 
 	$(document).on('click', '[data-role="navbar"] a', function () {
             $.mobile.changePage($(this).attr("data-href"), {
@@ -150,7 +156,7 @@
 				return false;
 			} else {
 					// Si todo paso, aqui ira la llamada AJAX
-					var datos = 'nombre='+ nombre + '&email=' + email + '&asunto=' + asunto + '&mensaje=' + mensaje + '&organizacion' + organizacion;
+					var datos = 'nombre='+ nombre + '&email=' + email + '&asunto=' + asunto + '&mensaje=' + mensaje + '&organizacion=' + organizacion;
 					$.ajax({
 						type: "POST",
 						url: "http://qualidadhumana.com/proceso.php",
@@ -188,7 +194,7 @@
 	</div>
 <div id="nosotros" data-role="page" class="fondo">
 			<div class="imgagen fondo" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
-		<div class="linea"></div>		
+		<div class="fondoh3"><h3 class="h3">Nosotros</h3></div>		
 		<div data-role="content">
 			<br/>
 			<ul data-role="listview" id="element_nosotros">
@@ -205,18 +211,22 @@
 	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
 		
 		<div data-role="content">		
-	  	<div class="fondoh3"><h3 class="h3">Mision</h3></div>
+	  	<div class="fondoh3"><h3 class="h3">Misión</h3></div>
+	  	
     	<div class="imgnos"><img src="mision.png" alt="" style="width:100%"></div>
 			        <p style="text-align: justify;">Compartir nuestro conocimiento y experiencia con nuestros socios estratégicos, facilitándoles herramientas para mejorar la gestión de su recurso humano, manteniendo una relación de confianza y fidelidad que les permita crecer como negocio de manera continua y sostenible.</p>
+			        <a href="javascript:menu('opcion1');" data-role="button" data-icon="back" class="retorno" style="margin-left: -6px;">Back</a>
     	</div>
         
 </div>
 <div id="vision" data-role="page" class="fondo">
 	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
 		<div data-role="content">		
-	  	<div class="fondoh3"><h3 class="h3">Vision</h3></div>
+	  	<div class="fondoh3"><h3 class="h3">Visión</h3></div>
+	  	
     	<div class="imgnos"><img src="vision.png" alt="" style="width:100%"></div>
 			         <p style="text-align: justify;">Ser una de las 5 consultoras de Gestión Estratégica de Recursos Humanos líderes en países de habla hispana, entendiendo la gestión para el desarrollo de personas como una ciencia cada vez más exacta que nos permite medir el impacto de nuestros servicios, apoyados en una plataforma de excelencia profesional, ética, compromiso, valores y buenas costumbres.</p>
+			         <a href="javascript:menu('opcion1');" data-role="button" data-icon="back" class="retorno" style="margin-left: -6px;">Back</a>
     	</div>
         
 </div>
@@ -224,11 +234,13 @@
 	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
 		<div data-role="content">		
 	  	<div class="fondoh3"><h3 class="h3">Quienes Somos</h3></div>
+	  	
     	<div class="imgnos"><img src="quienes.jpg" alt="" style="width:100%"></div>
-			         <p style="text-align: justify;">Ser una de las 5 consultoras de Gestión Estratégica de Recursos Humanos líderes en países de habla hispana, entendiendo la gestión para el desarrollo de personas como una ciencia cada vez más exacta que nos permite medir el impacto de nuestros servicios, apoyados en una plataforma de excelencia profesional, ética, compromiso, valores y buenas costumbres.</p>
+			         <p style="text-align: justify;">Somos una organización global especializada en Gestión Estratégica del Recurso Humano. Brindamos soluciones creativas y asesoramiento a organizaciones que buscan potenciar el desarrollo de su personal a través de una adecuada gestión de los sistemas relacionados con sus colaboradores.</p>
 			         <p style="text-align: justify;">En Qualidad Humana estamos convencidos de que la Gestión Estratégica del Recurso Humano debe venir acompañada de productividad y rentabilidad, es por eso que desarrollamos, junto a nuestros socios estratégicos, indicadores que les permiten monitorear y medir el impacto generado por su inversión en las diferentes áreas de su organización.</p>
 			         <p style="text-align: justify;">Nuestro compromiso está orientado en poner a su disposición al mejor staff de profesionales para obtener su total satisfacción y además, en tiempos en donde las cualidades profesionales se imponen a las personales, Qualidad Humana le asegura una relación con profesionales altamente cualificados con una sólida formación personal, de ética, de valores y respeto.
 			         </p>
+			         <a href="javascript:menu('opcion1');" data-role="button" data-icon="back" class="retorno" style="margin-left: -6px;">Back</a>
     	</div>
         
 </div>		
@@ -236,46 +248,56 @@
 	<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
 		<div data-role="content">		
 	  	<div class="fondoh3"><h3 class="h3">Valores</h3></div>
+	  	
     	<div class="imgnos"><img src="valores.png" alt="" style="width:100%"></div>
 			         <p style="text-align: justify;">
-			         	<p style="text-align: justify;"><strong>Excelencia :</strong> porque nuestros socios estratégicos merecen un aliado que supere sus expectativas, en Qualidad Humana nos imponemos las metas más altas y los objetivos más retadores que nos llevan a mejorar de forma diaria.</p>
-			         	<p style="text-align: justify;"><strong>Empatía:</strong>porque no podemos brindar una solución si no comprendemos las necesidades de nuestros socios estratégicos, en Qualidad Humana observamos, analizamos, cuestionamos y en función de nuestro conocimiento y experiencia, proponemos la mejor alternativa de solución.</p>
-			         	<p style="text-align: justify;"><strong>Creatividad :</strong>porque las alternativas son diversas y cada socio estratégico necesita una respuesta distinta, en Qualidad Humana innovamos la forma de gestionar el recurso humano de su organización proponiéndole soluciones que se ajustarán exactamente a sus necesidades.</p>
-			         	<p style="text-align: justify;"><strong>Ética :</strong> porque siempre existe una solución que está en el marco de lo correcto y lo adecuado, en Qualidad Humana lo asesoramos evitando cualquier tipo de contingencia futura sin que esto represente ningún sobrecosto para su organización.</p>
-			         	<p style="text-align: justify;"><strong>Desarrollo de Personas:</strong>porque creemos firmemente que el mayor activo de nuestros socios estratégicos son las personas y que el desarrollo de sus colaboradores trae como consecuencia el crecimiento de la organización, en Qualidad Humana nos preocupamos por desarrollar nuevas habilidades en nuestros colaboradores que les permitan afrontar con éxito todos y cada uno de los retos que se les presenten.</p>
+			         	<p style="text-align: justify;"><strong>Excelencia</strong> porque nuestros socios estratégicos merecen un aliado que supere sus expectativas, en Qualidad Humana nos imponemos las metas más altas y los objetivos más retadores que nos llevan a mejorar de forma diaria.</p>
+			         	<p style="text-align: justify;"><strong>Empatía</strong> porque no podemos brindar una solución si no comprendemos las necesidades de nuestros socios estratégicos, en Qualidad Humana observamos, analizamos, cuestionamos y en función de nuestro conocimiento y experiencia, proponemos la mejor alternativa de solución.</p>
+			         	<p style="text-align: justify;"><strong>Creatividad</strong> porque las alternativas son diversas y cada socio estratégico necesita una respuesta distinta, en Qualidad Humana innovamos la forma de gestionar el recurso humano de su organización proponiéndole soluciones que se ajustarán exactamente a sus necesidades.</p></p>
+			         	<p style="text-align: justify;"><strong>Ética </strong> porque siempre existe una solución que está en el marco de lo correcto y lo adecuado, en Qualidad Humana lo asesoramos evitando cualquier tipo de contingencia futura sin que esto represente ningún sobrecosto para su organización.</p>
+			         	<p style="text-align: justify;"><strong>Desarrollo de Personas</strong> porque creemos firmemente que el mayor activo de nuestros socios estratégicos son las personas y que el desarrollo de sus colaboradores trae como consecuencia el crecimiento de la organización, en Qualidad Humana nos preocupamos por desarrollar nuevas habilidades en nuestros colaboradores que les permitan afrontar con éxito todos y cada uno de los retos que se les presenten.</p>
 			         </p>
+			         <a href="javascript:menu('opcion1');" data-role="button" data-icon="back" class="retorno" style="margin-left: -6px;">Back</a>
     	</div>
         
 </div>		
 
 	<div id="empleos" data-role="page" class="fondo">
 		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
-		<div class="linea"></div>		
+		<div class="fondoh3" style="margin-top: -19px"><h3 class="h3">Empleos</h3></div>
+		<div class="imgnos"><img src="empleos9.jpg" alt="" style="width:100% ;margin-top: -16px;"></div>
 		<div data-role="content">
-			<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>			
+			
+				<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>
+			 				
 			<br/>
 			<ul data-role="listview" id="element_list"></ul>
 			<br/>
-					
+		<a href="javascript:menu('opcion5');" data-role="button"  data-icon="back" class="retorno" style="margin-left: -4px;margin-top: 25px;">Back</a>
 		</div>
 	</div>   	
 
 	<div id="professional" data-role="page" class="fondo">
 		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;padding: 10px;"></a></div>
-		<div class="linea"></div>
+		<div class="fondoh3" style="margin-top: -19px"><h3 class="h3">Professional Room</h3></div>
+		<div class="imgnos"><img src="proffe.jpg" alt="" style="width:100% ;margin-top: -16px;"></div>	
 		<div data-role="content">
-		<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>		
-		<br/>		
-			<ul data-role="listview" id="element_list_professional"></ul>		
 		
+		<div class="result-count"><img src="images/ajax-loader.gif" alt=""><p>cargando..</p></div>
+			<br/>		
+			<ul data-role="listview" id="element_list_professional"></ul>
+				<br/>	
+		<a href="javascript:menu('opcion5');" data-role="button"  data-icon="back" class="retorno" style="margin-left: -4px;margin-top: 25px;">Back</a>
 		</div>
 	</div>   	
 	<div id="contenido" data-role="page" class="fondo">
 		<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
-		<div class="linea"></div>		
+		<div class="fondoh3" style="margin-top: -19px"><h3 class="h3">Empleos</h3></div>			
 		<div data-role="content">		
 			<div id="element_contenido" data-role="collapsible-set">
+					
 			<h1 class="tituloinfo">Información Detallada</h1>
+			<a href="javascript:menu('opcion2');" data-role="button"  data-icon="back" class="retorno">Back</a>	
 			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo'>Posición Oferta</h3><p class='descripcione0'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Misión del puesto</h3><p class='descripcione1'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Requisitos</h3><p class='descripcione2'></p></div>
@@ -290,10 +312,11 @@
 	</div> 
 	<div id="contenidopro" data-role="page" class="fondo">
 		<div class="imgagen" style="text-align: center"><img src="logo.png" alt="logo" style="max-width: 100%;"></div>		
-		<div class="linea"></div>
+		<div class="fondoh3" style="margin-top: -19px"><h3 class="h3">Professional Room</h3></div>	
 		<div data-role="content">
 			<div id="element_contenido_pro" data-role="collapsible-set">
-				<h1 class="tituloinfo">Información Detallada</h1>
+			<h1 class="tituloinfo">Información Detallada</h1>
+			<a href="javascript:menu('opcion3');" data-role="button"  data-icon="back" class="retorno">Back</a>	
 			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo'>Posición</h3><p class='descripcion0'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Formación</h3><p class='descripcion1'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Conocimiento</h3><p class='descripcion2'></p></div>
@@ -307,7 +330,7 @@
 	</div>
 	<div id="contactenos" data-role="page" class="fondo">
 			<div class="imgagen" style="text-align: center"><a href="#inicio"><img src="logo.png" alt="logo" style="max-width: 100%;"></a></div>
-		<div class="linea"></div>			
+		<div class="fondoh3" style="margin-top: -19px"><h3 class="h3">Contáctenos</h3></div>			
 		
 		<div data-role="content">
        
