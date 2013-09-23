@@ -21,28 +21,20 @@
   }, false);
  
    function menu(opcion){
-		//Cambiamos el fondo de la capa cuerpo según la opción seleccionada	
 		if(opcion=="opcion1") $.mobile.changePage($("#nosotros"), { transition: "none", changeHash: false}); ;
-		if(opcion=="opcion2") {
-			
-			$.mobile.changePage($("#empleos"), { transition: "none", changeHash: false});;
-						
+		if(opcion=="opcion2") {			
+			$.mobile.changePage($("#empleos"), { transition: "none", changeHash: false});;						
 			mostrarempleos();
-		}
-			
+		}			
 		if(opcion=="opcion3"){
 			 $.mobile.changePage($("#professional"), { transition: "none", changeHash: false});;
 			 mostrarprofessional();
-		}
-		
+		}		
 		if(opcion=="opcion4") $.mobile.changePage($("#contactenos"), { transition: "none", changeHash: false});;
-		//Mostramos el contenido de la opcion seleccionada del menu inferior
-		
 }
      var url = "http://qualidadhumana.com/index.php/empleos?format=json";
      var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
 	function mostrarempleos(){
-		
 		var jqxhr =$.getJSON(url, function(data){
 				data_elements = data.items;	
 			$("#element_list").empty();
@@ -89,8 +81,7 @@
                 transition: "none",
                 changeHash: false
         	});   
-     
-        		$.each(data_elements, function(index, el){
+      		$.each(data_elements, function(index, el){
 						var id=el.id;
 						if (id === idemp){
 							var datae = el.extra_fields;					
@@ -102,7 +93,6 @@
 						}		
 				});
 
-		
 	});
 	$(document).on("click",".vinculopro" ,function(){
 			var idemp=$(this).attr("id");	
@@ -188,10 +178,10 @@
 		<div data-role="content">
 			<br/>
 			<ul data-role="listview" id="element_inicio">
-				<li  style=";margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion1');"><img src="2.png" alt="" style="padding: 6px 13px;"><h1 style="margin-top: 15px;font-size: 18px;">Nosotros</h1></a></li>
-				<li  style=" ;margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion2');"><img src="1.png" style="padding: 6px 13px;" ><h1 style="margin-top: 15px;font-size: 18px;">Empleos</h1></a></li>
-				<li  style="margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;" ><a href="javascript:menu('opcion3');"><img src="3.png" style="padding: 6px 13px;" ><h1 style="margin-top: 15px;font-size: 18px;">Professional Room</h1></a></li>
-				<li  style="margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 20px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion4');"><img src="4.png" alt="" style="padding: 6px 13px;" ><h1 style="margin-top: 15px;font-size: 18px;">Contáctenos</h1></a></li>
+				<li  style=";margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 10px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion1');"><img src="2.png" alt="" style="padding: 7px 10px;"><h1 style="margin-top: 15px;font-size: 18px;">Nosotros</h1></a></li>
+				<li  style=" ;margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 10px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion2');"><img src="1.png" style="padding: 7px 10px;" ><h1 style="margin-top: 15px;font-size: 18px;">Empleos</h1></a></li>
+				<li  style="margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 10px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;" ><a href="javascript:menu('opcion3');"><img src="3.png" style="padding: 7px 10px;" ><h1 style="margin-top: 15px;font-size: 18px;">Professional Room</h1></a></li>
+				<li  style="margin-bottom: 10px; margin-left: 30px;margin-right: 30px;border-radius: 10px;box-shadow: inset 1px -1px 10px 1px #fff;border: 0px;"><a href="javascript:menu('opcion4');"><img src="4.png" alt="" style="padding: 12px 10px;" ><h1 style="margin-top: 15px;font-size: 18px;">Contáctenos</h1></a></li>
 			
 			</ul>
 		</div>		
