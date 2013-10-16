@@ -12,8 +12,8 @@
 	<script type="text/javascript">
         var showing = 0;
         var id=0;
-   		var url="joomla.json";
-   		var url2="joomla2.json";
+   		//var url="joomla.json";
+   		//var url2="joomla2.json";
       var data_elements;
       var data_elements_pro;
   window.addEventListener('load', function() {
@@ -37,8 +37,8 @@
 			if(opcion=="opcion8") $.mobile.changePage($("#vision"), { transition: "none", changeHash: false});;
 			if(opcion=="opcion9") $.mobile.changePage($("#valores"), { transition: "none", changeHash: false});;
 }
-     //var url = "http://qualidadhumana.com/index.php/empleos?format=json";
-     //var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
+     var url = "http://qualidadhumana.com/index.php/empleos?format=json";
+     var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
 	function mostrarempleos(){
 		var jqxhr =$.getJSON(url, function(data){
 				data_elements = data.items;	
