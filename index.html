@@ -46,7 +46,8 @@
 			$.each(data_elements, function(index, el){
 						showing++;						
 						id=el.id;
-						$("#element_list").append( $("<li>").append($("<a href='#' class='vinculo' >").attr("id",id).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
+						txt=el.alias;
+						$("#element_list").append( $("<li>").append($("<a href='#' class='vinculo' >").attr("id",id).attr("name",txt).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
 							"<h1 style='margin-top: 1px;'>" + el.title + "</h1>" + "<p>" + el.created + "</p>"+"<p>"+el.introtext + "</p>")));
 
 			});
@@ -65,7 +66,7 @@
 				var showing = 0;				
 				$.each(data_elements_pro, function(index, el){			
 						showing++;
-						console.log(el);						
+										
 						id=el.id;	
 						$("#element_list_professional").empty();				
 							$("#element_list_professional").append( $("<li>").append($("<a href='#' class='vinculopro' >").attr("id",id).append("<img src='photoDefault.jpg' style='padding: 2px;'>"+
@@ -82,20 +83,27 @@
 	 
 	$(document).on("click",".vinculo" ,function(){
 			var idemp=$(this).attr("id");	
-			console.log(idemp);		
+			var txt=$(this).attr("name");	
+			console.log(idemp );	
+			console.log(txt );	
+
 			$.mobile.changePage($("#contenido"), {
                 transition: "none",
                 changeHash: false
-        	});   
-      		$.each(data_elements, function(index, el){
-						var id=el.id;
+        	});
+        	//var url3="joomla3.json";
+        	var url3 = "http://qualidadhumana.com/index.php/empleos/item/"+idemp +"-" +"txt"+ "?format=json";
+        	 var jqxhr = $.getJSON(url3, function(data){ 
+        	 data_emp = data.item; 
+        	        	 
+      		$.each(data_emp, function(index, el){
+						var id=data_emp.id;						
 						if (id===idemp){
-							console.log(el.introtext );
-							$(".descripcione").html("");	
-							$(".descripcione").append(el.introtext);							
+								$(".descripcione").html("");	
+							$(".descripcione").append(data_emp.introtext);							
 						}						
 						if (id === idemp){
-							var datae = el.extra_fields;					
+							var datae = data_emp.extra_fields;					
 							$.each(datae, function(index, el){	
 							$(".descripcione"+index).html("");			
 							$(".descripcione" + index).append(el.value);
@@ -103,6 +111,7 @@
 							});
 						}		
 				});
+      		});
 
 	});
 	$(document).on("click",".vinculopro" ,function(){
