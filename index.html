@@ -12,8 +12,8 @@
 	<script type="text/javascript">
         var showing = 0;
         var id=0;
-   		//var url="joomla.json";
-   		//var url2="joomla2.json";
+   		var url="joomla.json";
+   		var url2="joomla2.json";
       var data_elements;
       var data_elements_pro;
   window.addEventListener('load', function() {
@@ -37,8 +37,8 @@
 			if(opcion=="opcion8") $.mobile.changePage($("#vision"), { transition: "none", changeHash: false});;
 			if(opcion=="opcion9") $.mobile.changePage($("#valores"), { transition: "none", changeHash: false});;
 }
-     var url = "http://qualidadhumana.com/index.php/empleos?format=json";
-     var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
+     //var url = "http://qualidadhumana.com/index.php/empleos?format=json";
+     //var url2 = "http://qualidadhumana.com/index.php/professional-room?format=json";
 	function mostrarempleos(){
 		var jqxhr =$.getJSON(url, function(data){
 				data_elements = data.items;	
@@ -91,8 +91,8 @@
                 transition: "none",
                 changeHash: false
         	});
-        	//var url3="joomla3.json";
-        	var url3 = "http://qualidadhumana.com/index.php/empleos/item/"+idemp +"-" +"txt"+ "?format=json";
+        	var url3="joomla3.json";
+        	//var url3 = "http://qualidadhumana.com/index.php/empleos/item/"+idemp +"-" +"txt"+ "?format=json";
         	 var jqxhr = $.getJSON(url3, function(data){ 
         	 data_emp = data.item; 
         	        	 
@@ -319,7 +319,7 @@
 			<div id="element_contenido" data-role="collapsible-set">
 					
 			<h1 class="tituloinfo">Información Detallada</h1>
-			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo'>Introducción</h3><p class='descripcione'></p></div>
+			<div data-role="collapsible" data-content-theme="c" data-inset="false" data-collapsed="false"><h3 class='titulo' >Introducción</h3><p class='descripcione' style="text-align: justify"></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false" ><h3 class='titulo'>Posición Oferta</h3><p class='descripcione0'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Misión del puesto</h3><p class='descripcione1'></p></div>
 			<div data-role="collapsible" data-content-theme="c" data-inset="false"><h3 class='titulo'>Requisitos</h3><p class='descripcione2'></p></div>
